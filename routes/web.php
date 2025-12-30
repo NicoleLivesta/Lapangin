@@ -17,6 +17,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', function () {
+    return 'INI DASHBOARD ADMIN';
+})->name('admin.dashboard');
+
+Route::middleware(['auth', 'role:staff'])->get('/staff/dashboard', function () {
+    return 'INI DASHBOARD STAFF';
+})->name('staff.dashboard');
+
+Route::middleware(['auth', 'role:guest'])->get('/user/dashboard', function () {
+    return 'INI DASHBOARD USER';
+})->name('user.dashboard');
+
+Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register', [RegisteredUserController::class, 'store']);
+
 Route::get('/lapangan', function () {
     return view('lapangan');
 });
